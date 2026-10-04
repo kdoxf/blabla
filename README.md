@@ -1,0 +1,1 @@
+g++ matrix_aip.cpp -o matrix_aip./matrix_aip

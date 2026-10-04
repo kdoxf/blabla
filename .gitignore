@@ -1,0 +1,5 @@
+matrix_aip
+*.o
+*.exe
+.vscode/
+build/
