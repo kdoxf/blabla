@@ -11,16 +11,16 @@ void freeMat(int **m, size_t r) {
 }
 
 int ** createMat(size_t r, size_t c) {
-    int ** m = nullptr;
-    try {
-        m = new int*[r];
-        for (size_t i = 0; i < r; ++i) {
-            m[i] = new int[c];
-        }
-    }
-    catch (const std::bad_alloc& e) {
-        freeMat(m, r);
+    int **m = new (std::nothrow) int*[r];
+    if (m == nullptr) {
         return nullptr;
+    }
+    for (size_t i = 0; i < r; ++i) {
+        m[i] = new (std::nothrow) int[c];
+        if (m[i] == nullptr) {
+            freeMat(m, i);
+            return nullptr;
+        }
     }
     return m;
 }
@@ -83,6 +83,7 @@ int main() {
 
     if (!readMat(m, r, c)) {
         std::cerr << "ошибка\n";
+        freeMat(m, r);
         return 1;
     }
 
